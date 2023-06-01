@@ -7,3 +7,17 @@ def index(request):
         request,
         "index.html",
     )
+
+
+def sign_up(request):
+    form = ApplicantRegisterForm(request.POST)
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+
+            return redirect('applicantProfile.html')
+    else:
+        form = RegisterForm()
+    return render(request, 'registration/sign-up.html', {'form': form})

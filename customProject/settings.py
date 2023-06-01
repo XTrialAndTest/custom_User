@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "myapp",
     "django_bootstrap5",
+    "crispy_forms",
+    "crispy_bootstrap5",
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +141,6 @@ cloudinary.config(
     api_secret=config("CLOUDINARY_SECRET_KEY"),
     secure=config("CD_SECURE"),
 )
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"

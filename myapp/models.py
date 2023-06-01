@@ -36,6 +36,8 @@ class ApplicantManager(BaseUserManager):
         result = super().get_queryset(*args, **kwargs)
         return result.filter(user_type="applicant")
 
+# the applicant section
+
 
 class Applicant(CustomUser):
     user_type = "applicant"
@@ -46,10 +48,51 @@ class Applicant(CustomUser):
 
 
 class ApplicantProfile(models.Model):
-    user = models.OneToOneField(Applicant, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500)
-    profile_Pic = CloudinaryField("profile_pic")
+    profile_pic = CloudinaryField("profile_pic")
     contact = models.CharField(max_length=12)
 
     def __str__(self):
+        return self.user.email
+
+
+@receiver(post_save, sender=Applicant)
+def create_applicant_profile(sender, instance, created, *args, **kwargs):
+
+    if created and instance.user_type == 'applicant':
+        ApplicantProfile.objects.create(user=instance)
+
+# the employer section
+
+
+class EmployerManager(BaseUserManager):
+    def get_queryset(self, *args, **kwargs):
+        result = super().get_queryset(*args, **kwargs)
+        return result.filter(user_type="employer")
+
+
+class Employer(CustomUser):
+    user_type = "employer"
+    employer = EmployerManager()
+
+    class Meta:
+        proxy = True
+
+
+class EmployerProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500)
+    logo = CloudinaryField("profile_pic")
+    contact = models.CharField(max_length=12)
+    hq = models.CharField(max_length=200)
+
+    def __str__(self):
         return self.user.full_name
+
+
+@receiver(post_save, sender=Employer)
+def create_employer_profile(sender, instance, created, *args, **kwargs):
+
+    if created and instance.user_type == 'employer':
+        EmployerProfile.objects.create(user=instance)
