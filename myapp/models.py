@@ -36,6 +36,7 @@ class ApplicantManager(BaseUserManager):
         result = super().get_queryset(*args, **kwargs)
         return result.filter(user_type="applicant")
 
+
 # the applicant section
 
 
@@ -59,9 +60,9 @@ class ApplicantProfile(models.Model):
 
 @receiver(post_save, sender=Applicant)
 def create_applicant_profile(sender, instance, created, *args, **kwargs):
-
-    if created and instance.user_type == 'applicant':
+    if created and instance.user_type == "applicant":
         ApplicantProfile.objects.create(user=instance)
+
 
 # the employer section
 
@@ -93,6 +94,5 @@ class EmployerProfile(models.Model):
 
 @receiver(post_save, sender=Employer)
 def create_employer_profile(sender, instance, created, *args, **kwargs):
-
-    if created and instance.user_type == 'employer':
+    if created and instance.user_type == "employer":
         EmployerProfile.objects.create(user=instance)

@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "crispy_forms",
     "crispy_bootstrap5",
-    'cloudinary',
+    "cloudinary",
 ]
 
 MIDDLEWARE = [
@@ -144,3 +144,5 @@ cloudinary.config(
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+LOGOUT_REDIRECT_URL = "login"
+LOGIN_REDIRECT_URL = "/"
