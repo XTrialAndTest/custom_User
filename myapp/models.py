@@ -51,7 +51,7 @@ class Applicant(CustomUser):
 class ApplicantProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500)
-    profile_pic = CloudinaryField("profile_pic")
+    profile_pic = CloudinaryField("profile Picture")
     contact = models.CharField(max_length=12)
 
     def __str__(self):
@@ -84,7 +84,7 @@ class Employer(CustomUser):
 class EmployerProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500)
-    logo = CloudinaryField("profile_pic")
+    logo = CloudinaryField("profile_pic", )
     contact = models.CharField(max_length=12)
     hq = models.CharField(max_length=200)
 
@@ -96,3 +96,23 @@ class EmployerProfile(models.Model):
 def create_employer_profile(sender, instance, created, *args, **kwargs):
     if created and instance.user_type == "employer":
         EmployerProfile.objects.create(user=instance)
+
+
+class All_Job(models.Model):
+    positions = (('junior', 'junior'), ('intermediate', 'intermediate'),
+                 ('senior', 'senior'), ('expart', 'expart'))
+    contaract_types = (('remote', 'remote'), ('part-time', 'part-time'),
+                       ('full-time', 'full-time'), ('negotiations', 'negotiations'))
+
+    categories = (('Web developer', 'Web developer'), ('UI/UX Designer', 'UI/UX Designer'), ('Frontend developer', 'Frontend developer'),
+                  ('Backend developer', 'Backend developer'), ('Database admin', 'Database admin'), ('Data analyst', 'Data analyst'))
+
+    employer = models.ForeignKey(
+        Employer, on_delete=models.CASCADE, related_name='employer')
+    applicant = models.ManyToManyField(Applicant, related_name='applicant')
+    job_category = models.CharField(max_length=200, choices=categories)
+    job_title = models.CharField(max_length=200,)
+    job_location = models.CharField(max_length=200)
+    contract_type = models.CharField(max_length=200, choices=contaract_types)
+    position = models.CharField(max_length=200, choices=positions)
+    job_description = models.TextField()

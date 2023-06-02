@@ -16,4 +16,5 @@ urlpatterns = [
         name="employer_sign_up",
     ),
     path("employer_profile/", views.employer_profile, name="employer_profile"),
+    path('job_creation', views.job_creation, name="job_creation"),
 ]

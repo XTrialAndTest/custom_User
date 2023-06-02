@@ -68,3 +68,4 @@ class SuperEmployerAdmin(UserAdmin):
 # admin.site.register(CustomUser, SuperEmployerAdmin)
 admin.site.register(Employer, SuperEmployerAdmin)
 admin.site.register(EmployerProfile)
+admin.site.register(All_Job)
