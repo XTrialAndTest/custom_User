@@ -16,8 +16,8 @@ def applicant_sign_up(request):
     if request.method == "POST":
         form = Applicant_Creation_Form(request.POST)
         if form.is_valid():
-
-            applicant_type = form.save(commit=False)
+            user = form.save(commit=False)
+            applicant_type = user
             applicant_type.user_type = "applicant"
             applicant_type.save()
             login(request, user)
@@ -25,22 +25,20 @@ def applicant_sign_up(request):
             return redirect("applicant_profile")
     else:
         form = Applicant_Creation_Form()
-
     return render(request, "registration/applicant_sign_up.html", {"form": form})
 
 
 def applicant_profile(request):
-
     if request.method == "POST":
-        form = ApplicantProfileForm(request.POST, request.FILES)
+        form = ApplicantProfileForm(
+            request.POST,
+            request.FILES,
+            instance=ApplicantProfile.objects.get(user__id=request.user.id),
+        )
         if form.is_valid():
-            user = form.save(commit=False)
-            applicant_type = user
-            applicant_type.user_type = "applicant"
-            applicant_type.save()
-            # login(request, user)
+            form.save()
 
-            return redirect("Applicant_profile")
+            return redirect("applicant_profile")
     else:
         form = ApplicantProfileForm()
 
@@ -70,14 +68,16 @@ def employer_sign_up(request):
 
 
 def employer_profile(request):
-    if request.method == 'POST':
-        form = EmployerProfileForm(request.POST, request.FILES,)
-
+    if request.method == "POST":
+        form = EmployerProfileForm(
+            request.POST,
+            request.FILES,
+            instance=EmployerProfile.objects.get(user__id=request.user.id),
+        )
         if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user
-            post.save()
-            return redirect('/')
+            form.save()
+
+            return redirect("employer_profile")
     else:
         form = EmployerProfileForm()
 
@@ -85,14 +85,17 @@ def employer_profile(request):
 
 
 def job_creation(request):
-    if request.method == 'POST':
-        form = JobCreationForm(request.POST, request.FILES,)
+    if request.method == "POST":
+        form = JobCreationForm(
+            request.POST,
+            request.FILES,
+        )
 
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
             post.save()
-            return redirect('/')
+            return redirect("/")
     else:
         form = JobCreationForm()
 

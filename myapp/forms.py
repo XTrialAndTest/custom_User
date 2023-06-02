@@ -19,11 +19,7 @@ class Applicant_Creation_Form(UserCreationForm):
 class ApplicantProfileForm(forms.ModelForm):
     class Meta:
         model = ApplicantProfile
-        fields = [
-            "bio",
-            "contact",
-            'profile_pic'
-        ]
+        fields = ["bio", "contact", "profile_pic"]
 
 
 class Employer_Creation_Form(UserCreationForm):
@@ -41,11 +37,17 @@ class Employer_Creation_Form(UserCreationForm):
 class EmployerProfileForm(forms.ModelForm):
     class Meta:
         model = EmployerProfile
-        fields = ["bio", 'logo', "contact", "hq"]
+        fields = ["bio", "logo", "contact", "hq"]
 
 
 class JobCreationForm(forms.ModelForm):
     class Meta:
         model = All_Job
-        fields = ['job_title', 'job_description', 'job_location',
-                  'position', 'contract_type', 'job_category']
+        fields = [
+            "job_title",
+            "job_description",
+            "job_location",
+            "position",
+            "contract_type",
+            "job_category",
+        ]
